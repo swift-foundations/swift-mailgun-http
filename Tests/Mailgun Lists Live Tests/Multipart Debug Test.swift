@@ -3,7 +3,6 @@ import Mailgun_Lists_Live
 import Mailgun_Shared_Live
 import Mailgun_Types_Shared
 import Testing
-import URLMultipartFormCoding
 import URLRouting
 
 @Suite("Multipart Debug Tests")
@@ -20,7 +19,8 @@ struct MultipartDebugTests {
         let formData = try formEncoder.encode(request)
         let formString = String(data: formData, encoding: .utf8)!
         print("Regular form encoding: \(formString)")
-        #expect(formString == "name=Updated%20Name")
+        // In application/x-www-form-urlencoded, spaces are encoded as +
+        #expect(formString == "name=Updated+Name")
 
         // Test via router to see actual request body
         let router = Mailgun.Lists.API.Router()

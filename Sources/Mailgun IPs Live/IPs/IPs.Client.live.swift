@@ -10,7 +10,6 @@ import Foundation
 import IssueReporting
 @_exported import Mailgun_IPs_Types
 @_exported import Mailgun_Shared_Live
-import TypesFoundation
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking

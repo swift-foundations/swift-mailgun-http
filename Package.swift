@@ -79,14 +79,13 @@ extension Target.Dependency {
     static var mailgunTypesShared: Self { .product(name: "Mailgun Types Shared", package: "swift-mailgun-types" ) }
     static var urlrequestHandler: Self { .product(name: "URLRequestHandler", package: "swift-urlrequest-handler" ) }
     static var urlRouting: Self { .product(name: "URLRouting", package: "swift-url-routing" ) }
-    static var urlFormCoding: Self { .product(name: "URLFormCoding", package: "swift-url-form-coding" ) }
 }
 
 let package = Package(
     name: "swift-mailgun-live",
     platforms: [
-        .macOS(.v14),
-        .iOS(.v17)
+        .macOS(.v15),
+        .iOS(.v18)
     ],
     products: [
         .library(name: .mailgun, targets: [.mailgun]),
@@ -110,14 +109,13 @@ let package = Package(
         .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/swift-authenticating", from: "0.0.2"),
+        .package(path: "/Users/coen/Developer/coenttb/swift-authenticating"),
         .package(url: "https://github.com/coenttb/swift-environment-variables", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-urlrequest-handler", from: "0.0.1"),
-        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.2.0"),
+        .package(path: "/Users/coen/Developer/coenttb/swift-mailgun-types"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
-        .package(url: "https://github.com/pointfreeco/swift-url-routing", from: "0.6.2"),
-        .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
-        .package(url: "https://github.com/coenttb/swift-url-form-coding", from: "0.1.0")
+        .package(path: "/Users/coen/Developer/coenttb/swift-url-routing"),
+        .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3")
     ],
     targets: [
         .target(
@@ -128,7 +126,6 @@ let package = Package(
                 .mailgunTypesShared,
                 .environmentVariables,
                 .urlRouting,
-                .urlFormCoding,
                 .urlrequestHandler
 
             ]
