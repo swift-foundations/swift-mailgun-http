@@ -113,7 +113,7 @@ let package = Package(
         .package(url: "https://github.com/coenttb/swift-urlrequest-handler", from: "0.0.1"),
         .package(url: "https://github.com/swift-standards/swift-mailgun-types.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-url-routing.git", from: "0.6.2"),
+        .package(url: "https://github.com/swift-foundations/swift-url-routing.git", from: "0.6.0"),  // Institute fork URL (principal ruling 2026-07-09); pinned to upstream-identical tags (0.6.2 = pointfree release SHA); do NOT use branch:main until the RFC-first rewrite lands via the routing arc.
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3")
     ],
     targets: [
