@@ -6,7 +6,7 @@
 //
 
 import Dependencies
-import DependenciesTestSupport
+import Dependencies_Test_Support
 import Mailgun_Domains_Live
 import Mailgun_Shared_Live
 import Testing
