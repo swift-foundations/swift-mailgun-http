@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version: 6.3.1
 
 import Foundation
 import PackageDescription
@@ -50,8 +50,7 @@ extension Target.Dependency {
 extension Target.Dependency {
     static var authenticating: Self { .product(name: "Authenticating", package: "swift-authenticating") }
     static var environmentVariables: Self { .product(name: "EnvironmentVariables", package: "swift-environment-variables") }
-    static var dependenciesMacros: Self { .product(name: "DependenciesMacros", package: "swift-dependencies") }
-    static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }
+    static var dependenciesTestSupport: Self { .product(name: "Dependencies Test Support", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
 }
 
@@ -84,8 +83,8 @@ extension Target.Dependency {
 let package = Package(
     name: "swift-mailgun-live",
     platforms: [
-        .macOS(.v15),
-        .iOS(.v18)
+        .macOS(.v26),
+        .iOS(.v26)
     ],
     products: [
         .library(name: .mailgun, targets: [.mailgun]),
@@ -109,12 +108,12 @@ let package = Package(
         .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
-        .package(path: "/Users/coen/Developer/coenttb/swift-authenticating"),
+        .package(url: "https://github.com/coenttb/swift-authenticating", from: "0.0.2"),
         .package(url: "https://github.com/coenttb/swift-environment-variables", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-urlrequest-handler", from: "0.0.1"),
-        .package(path: "/Users/coen/Developer/coenttb/swift-mailgun-types"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
-        .package(path: "/Users/coen/Developer/coenttb/swift-url-routing"),
+        .package(url: "https://github.com/swift-standards/swift-mailgun-types.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-url-routing.git", from: "0.6.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3")
     ],
     targets: [
