@@ -6,8 +6,8 @@
 //
 
 import Domain
-import EnvironmentVariables
 import Foundation
+import ServerFoundationEnvVars
 
 extension EnvironmentVariables {
     public struct Mailgun: Sendable {
@@ -57,8 +57,7 @@ extension EnvVars {
             environmentConfiguration: .projectRoot(
                 projectRoot,
                 environment: "development"
-            ),
-            requiredKeys: []
+            )
         )
     }
 }

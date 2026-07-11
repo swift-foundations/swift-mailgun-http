@@ -49,7 +49,7 @@ extension Target.Dependency {
 
 extension Target.Dependency {
     static var authenticating: Self { .product(name: "Authenticating", package: "swift-authenticating") }
-    static var environmentVariables: Self { .product(name: "EnvironmentVariables", package: "swift-environment-variables") }
+    static var serverEnvVars: Self { .product(name: "ServerFoundationEnvVars", package: "swift-server-foundation") }
     static var dependenciesTestSupport: Self { .product(name: "Dependencies Test Support", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
 }
@@ -109,7 +109,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/coenttb/swift-authenticating", from: "0.0.2"),
-        .package(url: "https://github.com/coenttb/swift-environment-variables", from: "0.0.1"),
+        .package(url: "https://github.com/swift-foundations/swift-server-foundation.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-urlrequest-handler.git", branch: "main"),
         .package(url: "https://github.com/swift-standards/swift-mailgun-types.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
@@ -123,7 +123,7 @@ let package = Package(
                 .issueReporting,
                 .authenticating,
                 .mailgunTypesShared,
-                .environmentVariables,
+                .serverEnvVars,
                 .urlRouting,
                 .urlrequestHandler
 
