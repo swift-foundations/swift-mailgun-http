@@ -16,7 +16,7 @@ extension URLRequest.Handler {
     package enum Mailgun {}
 }
 
-extension URLRequest.Handler.Mailgun: DependencyKey {
+extension URLRequest.Handler.Mailgun: Dependency.Key {
     package static var liveValue: URLRequest.Handler {
         let decoder = JSONDecoder()
         let formatter = DateFormatter()

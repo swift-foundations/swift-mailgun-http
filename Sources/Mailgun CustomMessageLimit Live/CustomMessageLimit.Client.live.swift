@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_CustomMessageLimit_Types
 @_exported import Mailgun_Shared_Live
 
@@ -60,12 +59,12 @@ extension Mailgun.CustomMessageLimit {
     >
 }
 
-extension Mailgun.CustomMessageLimit: @retroactive DependencyKey {
+extension Mailgun.CustomMessageLimit: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.CustomMessageLimit.Authenticated {
         try! Mailgun.CustomMessageLimit.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.CustomMessageLimit.API.Router: @retroactive DependencyKey {
+extension Mailgun.CustomMessageLimit.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.CustomMessageLimit.API.Router = .init()
 }

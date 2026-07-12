@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Domain
+import Domain_Standard
 import Foundation
 @_exported import Mailgun_Shared_Live
 import Mailgun_Types

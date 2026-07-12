@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_Shared_Live
 @_exported import Mailgun_Users_Types
 
@@ -64,12 +63,12 @@ extension Mailgun.Users {
     >
 }
 
-extension Mailgun.Users: @retroactive DependencyKey {
+extension Mailgun.Users: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.Users.Authenticated {
         try! Mailgun.Users.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Users.API.Router: @retroactive DependencyKey {
+extension Mailgun.Users.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.Users.API.Router = .init()
 }

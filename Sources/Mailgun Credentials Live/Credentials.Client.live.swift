@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_Credentials_Types
 @_exported import Mailgun_Shared_Live
 
@@ -73,12 +72,12 @@ extension Mailgun.Credentials {
     >
 }
 
-extension Mailgun.Credentials: @retroactive DependencyKey {
+extension Mailgun.Credentials: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.Credentials.Authenticated {
         try! Mailgun.Credentials.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Credentials.API.Router: @retroactive DependencyKey {
+extension Mailgun.Credentials.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.Credentials.API.Router = .init()
 }

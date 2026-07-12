@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_Domains_Types
 @_exported import Mailgun_Shared_Live
 
@@ -75,12 +74,12 @@ extension Mailgun.Domains.Domains {
     >
 }
 
-extension Mailgun.Domains.Domains: @retroactive DependencyKey {
+extension Mailgun.Domains.Domains: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.Domains.Domains.Authenticated {
         try! Mailgun.Domains.Domains.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Domains.Domains.API.Router: @retroactive DependencyKey {
+extension Mailgun.Domains.Domains.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.Domains.Domains.API.Router = .init()
 }

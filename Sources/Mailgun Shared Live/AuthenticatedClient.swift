@@ -26,12 +26,13 @@ public typealias Authenticated<
     Client
 > where APIRouter.Output == API, APIRouter.Input == URLRequestData
 
-extension Authenticated {
+extension Authenticating
+where Auth == BasicAuth, AuthRouter == BasicAuth.Router, APIRouter: Sendable {
     public init(
         router: APIRouter,
         buildClient:
-            @escaping @Sendable (@escaping @Sendable (API) throws -> URLRequest) -> ClientOutput
-    ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
+            @escaping @Sendable (@escaping @Sendable (API) throws -> URLRequest) -> Client
+    ) throws {
         @Dependency(\.envVars.mailgun.baseUrl) var baseUrl
         @Dependency(\.envVars.mailgun.apiKey) var apiKey
 
@@ -45,25 +46,31 @@ extension Authenticated {
     }
 }
 
-extension Authenticated {
+extension Authenticating
+where Auth == BasicAuth, AuthRouter == BasicAuth.Router, APIRouter: Sendable {
     package static func fromEnvironmentVariables(
         router: APIRouter,
         buildClient:
             @escaping @Sendable (
                 _ makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
-            ) -> ClientOutput
-    ) throws -> Self where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
-        return try Authenticated(
+            ) -> Client
+    ) throws -> Self {
+        return try .init(
             router: router,
             buildClient: { buildClient($0) }
         )
     }
 }
 
-extension Authenticated where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
+extension Authenticating
+where
+    Auth == BasicAuth,
+    AuthRouter == BasicAuth.Router,
+    APIRouter: Dependency.Key,
+    APIRouter.Value == APIRouter {
     package init(
-        buildClient: @escaping @Sendable () -> ClientOutput
-    ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
+        buildClient: @escaping @Sendable () -> Client
+    ) throws {
         @Dependency(APIRouter.self) var router
         self = try .fromEnvironmentVariables(
             router: router
@@ -71,13 +78,18 @@ extension Authenticated where APIRouter: TestDependencyKey, APIRouter.Value == A
     }
 }
 
-extension Authenticated where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
+extension Authenticating
+where
+    Auth == BasicAuth,
+    AuthRouter == BasicAuth.Router,
+    APIRouter: Dependency.Key,
+    APIRouter.Value == APIRouter {
     package init(
         _ buildClient:
             @escaping @Sendable (
                 _ makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
-            ) -> ClientOutput
-    ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
+            ) -> Client
+    ) throws {
         @Dependency(APIRouter.self) var router
         self = try .fromEnvironmentVariables(
             router: router,

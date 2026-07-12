@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_Reporting_Types
 @_exported import Mailgun_Shared_Live
 
@@ -42,12 +41,12 @@ extension Mailgun.Reporting.Events {
     >
 }
 
-extension Mailgun.Reporting.Events: @retroactive DependencyKey {
+extension Mailgun.Reporting.Events: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.Reporting.Events.Authenticated {
         try! Mailgun.Reporting.Events.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Reporting.Events.API.Router: @retroactive DependencyKey {
+extension Mailgun.Reporting.Events.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.Reporting.Events.API.Router = .init()
 }

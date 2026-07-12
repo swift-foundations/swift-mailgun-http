@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_IPs_Types
 @_exported import Mailgun_Shared_Live
 
@@ -61,12 +60,12 @@ extension Mailgun.IPAddressWarmup {
     >
 }
 
-extension Mailgun.IPAddressWarmup: @retroactive DependencyKey {
+extension Mailgun.IPAddressWarmup: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.IPAddressWarmup.Authenticated {
         try! Mailgun.IPAddressWarmup.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.IPAddressWarmup.API.Router: @retroactive DependencyKey {
+extension Mailgun.IPAddressWarmup.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.IPAddressWarmup.API.Router = .init()
 }

@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 23/01/2025.
 //
 
-import Domain
+import Domain_Standard
 import Foundation
 import ServerFoundationEnvVars
 

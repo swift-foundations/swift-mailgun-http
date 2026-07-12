@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_Keys_Types
 @_exported import Mailgun_Shared_Live
 
@@ -58,12 +57,12 @@ extension Mailgun.Keys {
     >
 }
 
-extension Mailgun.Keys: @retroactive DependencyKey {
+extension Mailgun.Keys: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.Keys.Authenticated {
         try! Mailgun.Keys.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Keys.API.Router: @retroactive DependencyKey {
+extension Mailgun.Keys.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.Keys.API.Router = .init()
 }

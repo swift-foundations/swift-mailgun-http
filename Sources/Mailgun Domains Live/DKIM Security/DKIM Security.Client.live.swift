@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_Domains_Types
 @_exported import Mailgun_Shared_Live
 
@@ -47,12 +46,12 @@ extension Mailgun.Domains.DKIM_Security {
     >
 }
 
-extension Mailgun.Domains.DKIM_Security: @retroactive DependencyKey {
+extension Mailgun.Domains.DKIM_Security: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.Domains.DKIM_Security.Authenticated {
         try! Mailgun.Domains.DKIM_Security.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Domains.DKIM_Security.API.Router: @retroactive DependencyKey {
+extension Mailgun.Domains.DKIM_Security.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.Domains.DKIM_Security.API.Router = .init()
 }

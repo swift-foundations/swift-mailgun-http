@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_Shared_Live
 @_exported import Mailgun_Webhooks_Types
 
@@ -71,12 +70,12 @@ extension Mailgun.Webhooks {
     >
 }
 
-extension Mailgun.Webhooks: @retroactive DependencyKey {
+extension Mailgun.Webhooks: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.Webhooks.Authenticated {
         try! Mailgun.Webhooks.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Webhooks.API.Router: @retroactive DependencyKey {
+extension Mailgun.Webhooks.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.Webhooks.API.Router = .init()
 }

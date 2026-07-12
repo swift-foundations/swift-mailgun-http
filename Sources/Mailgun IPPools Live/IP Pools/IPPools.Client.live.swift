@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_IPPools_Types
 @_exported import Mailgun_Shared_Live
 
@@ -75,12 +74,12 @@ extension Mailgun.IPPools {
     >
 }
 
-extension Mailgun.IPPools: @retroactive DependencyKey {
+extension Mailgun.IPPools: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.IPPools.Authenticated {
         try! Mailgun.IPPools.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.IPPools.API.Router: @retroactive DependencyKey {
+extension Mailgun.IPPools.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.IPPools.API.Router = .init()
 }

@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import IssueReporting
 @_exported import Mailgun_IPAllowlist_Types
 @_exported import Mailgun_Shared_Live
 
@@ -58,12 +57,12 @@ extension Mailgun.IPAllowlist {
     >
 }
 
-extension Mailgun.IPAllowlist: @retroactive DependencyKey {
+extension Mailgun.IPAllowlist: @retroactive Dependency.Key, @unchecked Sendable {
     public static var liveValue: Mailgun.IPAllowlist.Authenticated {
         try! Mailgun.IPAllowlist.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.IPAllowlist.API.Router: @retroactive DependencyKey {
+extension Mailgun.IPAllowlist.API.Router: @retroactive Dependency.Key {
     public static let liveValue: Mailgun.IPAllowlist.API.Router = .init()
 }
