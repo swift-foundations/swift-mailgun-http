@@ -7,7 +7,7 @@
 
 import Domain_Standard
 import Foundation
-import ServerFoundationEnvVars
+import Environment_Dependencies
 
 extension EnvironmentVariables {
     public struct Mailgun: Sendable {

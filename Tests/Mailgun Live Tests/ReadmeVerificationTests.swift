@@ -10,7 +10,7 @@ import Dependencies_Test_Support
 import Foundation
 import Mailgun_Live
 import Mailgun_Messages_Live
-import ServerFoundationEnvVars
+import Environment_Dependencies
 import Testing
 
 #if canImport(FoundationNetworking)

@@ -12,7 +12,7 @@ import Mailgun_Messages_Types
 import Mailgun_Suppressions_Types
 import Mailgun_Templates_Types
 import Mailgun_Types
-import ServerFoundationEnvVars
+import Environment_Dependencies
 import Testing
 
 @testable import Mailgun_Live
