@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Authentication_Foundation_Integration
+import URL_Routing_Foundation_Integration
 import Dependencies
 import Foundation
 import Mailgun_AccountManagement_Live

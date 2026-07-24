@@ -48,7 +48,7 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var authenticating: Self { .product(name: "Authentication Foundation Integration", package: "swift-url-routing-authentication") }
+    static var urlRoutingFoundationIntegration: Self { .product(name: "URL Routing Foundation Integration", package: "swift-url-routing") }
     static var serverEnvVars: Self { .product(name: "Environment Dependencies", package: "swift-environment-dependencies") }
     static var dependenciesTestSupport: Self { .product(name: "Dependencies Test Support", package: "swift-dependencies") }
 }
@@ -111,14 +111,13 @@ let package = Package(
         .package(url: "https://github.com/swift-foundations/swift-urlrequest-handler.git", branch: "main"),
         .package(url: "https://github.com/swift-standards/swift-mailgun-types.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-url-routing.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-url-routing-authentication.git", branch: "main")
+        .package(url: "https://github.com/swift-foundations/swift-url-routing.git", branch: "main")
     ],
     targets: [
         .target(
             name: .shared,
             dependencies: [
-                .authenticating,
+                .urlRoutingFoundationIntegration,
                 .mailgunTypesShared,
                 .serverEnvVars,
                 .urlRouting,

@@ -1,13 +1,11 @@
 //
-//  File.swift
-//  rule-law
-//
-//  Created by Coen ten Thije Boonkkamp on 05/01/2025.
+//  AuthenticatedClient.swift
+//  swift-mailgun-live — Mailgun Shared Live
 //
 
-import Authentication_Foundation_Integration
 import Dependencies
 import Foundation
+import URL_Routing_Foundation_Integration
 import URLRouting
 
 #if canImport(FoundationNetworking)
@@ -18,16 +16,16 @@ public typealias Authenticated<
     API: Equatable & Sendable,
     APIRouter: ParserPrinter & Sendable,
     Client: Sendable
-> = Authenticating<
-    BasicAuth,
-    BasicAuth.Router,
+> = Authentication.Client<
+    RFC_7617.Basic,
+    RFC_7617.Basic.Router,
     API,
     APIRouter,
     Client
-> where APIRouter.Output == API, APIRouter.Input == URLRequestData
+> where APIRouter.Output == API, APIRouter.Input == RFC_3986.URI.Request.Data
 
-extension Authenticating
-where Credential == BasicAuth, CredentialRouter == BasicAuth.Router, APIRouter: Sendable {
+extension Authentication.Client
+where Credential == RFC_7617.Basic, CredentialRouter == RFC_7617.Basic.Router, APIRouter: Sendable {
     public init(
         router: APIRouter,
         buildClient:
@@ -36,18 +34,18 @@ where Credential == BasicAuth, CredentialRouter == BasicAuth.Router, APIRouter: 
         @Dependency(\.envVars.mailgun.baseUrl) var baseUrl
         @Dependency(\.envVars.mailgun.apiKey) var apiKey
 
-        self = .init(
+        self = try .init(
             baseURL: baseUrl,
-            auth: try .init(username: "api", password: apiKey.rawValue),
+            credential: .init(userID: "api", password: apiKey.rawValue),
             apiRouter: router,
-            authRouter: BasicAuth.Router(),
-            buildClient: buildClient
+            credentialRouter: RFC_7617.Basic.Router(),
+            client: buildClient
         )
     }
 }
 
-extension Authenticating
-where Credential == BasicAuth, CredentialRouter == BasicAuth.Router, APIRouter: Sendable {
+extension Authentication.Client
+where Credential == RFC_7617.Basic, CredentialRouter == RFC_7617.Basic.Router, APIRouter: Sendable {
     package static func fromEnvironmentVariables(
         router: APIRouter,
         buildClient:
@@ -62,10 +60,10 @@ where Credential == BasicAuth, CredentialRouter == BasicAuth.Router, APIRouter: 
     }
 }
 
-extension Authenticating
+extension Authentication.Client
 where
-    Credential == BasicAuth,
-    CredentialRouter == BasicAuth.Router,
+    Credential == RFC_7617.Basic,
+    CredentialRouter == RFC_7617.Basic.Router,
     APIRouter: Dependency.Key,
     APIRouter.Value == APIRouter {
     package init(
@@ -78,10 +76,10 @@ where
     }
 }
 
-extension Authenticating
+extension Authentication.Client
 where
-    Credential == BasicAuth,
-    CredentialRouter == BasicAuth.Router,
+    Credential == RFC_7617.Basic,
+    CredentialRouter == RFC_7617.Basic.Router,
     APIRouter: Dependency.Key,
     APIRouter.Value == APIRouter {
     package init(
