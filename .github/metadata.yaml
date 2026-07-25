@@ -1,0 +1,9 @@
+# .github/metadata.yaml
+description: "Live URLSession networking implementing full Mailgun API coverage for swift-mailgun-types."
+topics:
+  - foundations
+  - mailgun
+  - email
+homepage: "https://swift-institute.org"
+readme:
+  family: E
