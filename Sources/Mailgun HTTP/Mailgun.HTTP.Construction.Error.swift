@@ -44,5 +44,11 @@ extension Mailgun.HTTP.Construction {
         /// mirroring `HTML.Form.Coder.Error.coding`'s own `String` case —
         /// the underlying `EncodingError` is not `Sendable`.
         case json(String)
+
+        /// Hand-rolled multipart assembly failed — `Mailgun.HTTP.Messages.send`
+        /// and `.sendMime`, which build `RFC_2046.BodyPart`s directly (per
+        /// the archived router's `SendMultipartConversion`/`MimeMultipartConversion`)
+        /// rather than going through `HTML.Form.Coder.Multipart`.
+        case messagesMultipart(String)
     }
 }
