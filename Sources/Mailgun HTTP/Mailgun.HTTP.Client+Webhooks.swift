@@ -27,7 +27,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Webhooks.create(request, domain: domain)
                 }
             },
-            update: { (webhookName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            update: { webhookName, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Webhooks.update(webhookName, request, domain: domain)
                 }

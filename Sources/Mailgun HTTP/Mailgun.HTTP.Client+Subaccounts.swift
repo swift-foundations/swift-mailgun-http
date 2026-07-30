@@ -27,7 +27,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Subaccounts.delete(subaccountId)
                 }
             },
-            disable: { (subaccountId, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            disable: { subaccountId, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Subaccounts.disable(subaccountId, request)
                 }
@@ -42,8 +42,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Subaccounts.getCustomLimit(subaccountId)
                 }
             },
-            updateCustomLimit: {
-                (subaccountId, limit) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            updateCustomLimit: { subaccountId, limit throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Subaccounts.updateCustomLimit(subaccountId, limit: limit)
                 }
@@ -53,8 +52,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Subaccounts.deleteCustomLimit(subaccountId)
                 }
             },
-            updateFeatures: {
-                (subaccountId, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            updateFeatures: { subaccountId, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Subaccounts.updateFeatures(subaccountId, request)
                 }

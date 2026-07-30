@@ -21,50 +21,47 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Lists.list(request)
                 }
             },
-            members: { (listAddress, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            members: { listAddress, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.members(listAddress, request)
                 }
             },
-            addMember: { (listAddress, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            addMember: { listAddress, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.addMember(listAddress, request)
                 }
             },
-            bulkAdd: {
-                (listAddress, members, upsert) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            bulkAdd: { listAddress, members, upsert throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.bulkAdd(listAddress, members, upsert: upsert)
                 }
             },
-            bulkAddCSV: { (_, _, _, _) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            bulkAddCSV: { _, _, _, _ throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 throw Mailgun.HTTP.Error<ExecutionFailure>.unsupported(
                     "Mailgun.HTTP.Lists.bulkAddCSV is not implemented — see swift-mailgun-http#7"
                 )
             },
-            getMember: {
-                (listAddress, memberAddress) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            getMember: { listAddress, memberAddress throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.getMember(listAddress, memberAddress)
                 }
             },
             updateMember: {
-                (
-                    listAddress,
-                    memberAddress,
-                    request
-                ) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                listAddress,
+                memberAddress,
+                request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.updateMember(listAddress, memberAddress, request)
                 }
             },
             deleteMember: {
-                (listAddress, memberAddress) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                listAddress,
+                memberAddress throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.deleteMember(listAddress, memberAddress)
                 }
             },
-            update: { (listAddress, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            update: { listAddress, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.update(listAddress, request)
                 }
@@ -84,7 +81,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Lists.pages(limit: limit)
                 }
             },
-            memberPages: { (listAddress, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            memberPages: { listAddress, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Lists.memberPages(listAddress, request)
                 }

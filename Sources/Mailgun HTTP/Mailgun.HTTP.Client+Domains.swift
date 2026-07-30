@@ -26,7 +26,7 @@ extension Mailgun.HTTP.Client {
                         try Mailgun.HTTP.Domains.get(domain)
                     }
                 },
-                update: { (domain, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                update: { domain, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.update(domain, request)
                     }
@@ -43,7 +43,7 @@ extension Mailgun.HTTP.Client {
                 }
             ),
             dkimSecurity: .init(
-                updateRotation: { (domain, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                updateRotation: { domain, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.DKIMSecurity.updateRotation(domain, request)
                     }
@@ -70,8 +70,7 @@ extension Mailgun.HTTP.Client {
                         try Mailgun.HTTP.Domains.Keys.delete(request)
                     }
                 },
-                activate: {
-                    (authorityName, selector) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                activate: { authorityName, selector throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.Keys.activate(
                             authorityName: authorityName,
@@ -85,7 +84,8 @@ extension Mailgun.HTTP.Client {
                     }
                 },
                 deactivate: {
-                    (authorityName, selector) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                    authorityName,
+                    selector throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.Keys.deactivate(
                             authorityName: authorityName,
@@ -94,7 +94,8 @@ extension Mailgun.HTTP.Client {
                     }
                 },
                 setDkimAuthority: {
-                    (domainName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                    domainName,
+                    request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.Keys.setDkimAuthority(
                             domainName: domainName,
@@ -103,7 +104,8 @@ extension Mailgun.HTTP.Client {
                     }
                 },
                 setDkimSelector: {
-                    (domainName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                    domainName,
+                    request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.Keys.setDkimSelector(
                             domainName: domainName,
@@ -118,18 +120,17 @@ extension Mailgun.HTTP.Client {
                         try Mailgun.HTTP.Domains.Tracking.get(domain)
                     }
                 },
-                updateClick: { (domain, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                updateClick: { domain, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.Tracking.updateClick(domain, request)
                     }
                 },
-                updateOpen: { (domain, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                updateOpen: { domain, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.Tracking.updateOpen(domain, request)
                     }
                 },
-                updateUnsubscribe: {
-                    (domain, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                updateUnsubscribe: { domain, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                     try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                         try Mailgun.HTTP.Domains.Tracking.updateUnsubscribe(domain, request)
                     }

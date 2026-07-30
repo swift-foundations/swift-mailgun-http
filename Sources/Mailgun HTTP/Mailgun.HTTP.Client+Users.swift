@@ -22,13 +22,12 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Users.me()
                 }
             },
-            addToOrganization: { (userId, orgId) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            addToOrganization: { userId, orgId throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Users.addToOrganization(userId: userId, orgId: orgId)
                 }
             },
-            removeFromOrganization: {
-                (userId, orgId) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            removeFromOrganization: { userId, orgId throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Users.removeFromOrganization(userId: userId, orgId: orgId)
                 }

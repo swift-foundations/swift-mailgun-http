@@ -17,7 +17,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Routes.create(request)
                 }
             },
-            list: { (limit, skip) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            list: { limit, skip throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Routes.list(limit: limit, skip: skip)
                 }
@@ -27,7 +27,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Routes.get(id)
                 }
             },
-            update: { (id, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            update: { id, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Routes.update(id, request)
                 }

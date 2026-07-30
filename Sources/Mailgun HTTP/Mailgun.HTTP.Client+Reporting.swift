@@ -97,7 +97,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Reporting.Tags.get(domain, tag: tag)
                 }
             },
-            update: { (tag, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            update: { tag, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Reporting.Tags.update(domain, tag: tag, request)
                 }
@@ -107,12 +107,12 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Reporting.Tags.delete(domain, tag: tag)
                 }
             },
-            stats: { (tag, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            stats: { tag, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Reporting.Tags.stats(domain, tag: tag, request)
                 }
             },
-            aggregates: { (tag, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            aggregates: { tag, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Reporting.Tags.aggregates(domain, tag: tag, request)
                 }

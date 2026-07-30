@@ -27,22 +27,22 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Templates.deleteAll(domain)
                 }
             },
-            versions: { (templateName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            versions: { templateName, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.versions(domain, templateName, request)
                 }
             },
-            createVersion: { (templateName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            createVersion: { templateName, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.createVersion(domain, templateName, request)
                 }
             },
-            get: { (templateName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            get: { templateName, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.get(domain, templateName, request)
                 }
             },
-            update: { (templateName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            update: { templateName, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.update(domain, templateName, request)
                 }
@@ -52,14 +52,15 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.Templates.delete(domain, templateName)
                 }
             },
-            getVersion: {
-                (templateName, versionName) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            getVersion: { templateName, versionName throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.getVersion(domain, templateName, versionName)
                 }
             },
             updateVersion: {
-                (templateName, versionName, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                templateName,
+                versionName,
+                request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.updateVersion(
                         domain,
@@ -70,19 +71,17 @@ extension Mailgun.HTTP.Client {
                 }
             },
             deleteVersion: {
-                (templateName, versionName) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                templateName,
+                versionName throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.deleteVersion(domain, templateName, versionName)
                 }
             },
             copyVersion: {
-                (
-                    templateName,
-                    versionName,
-                    newVersionName,
-                    request
-                )
-                    throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+                templateName,
+                versionName,
+                newVersionName,
+                request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.Templates.copyVersion(
                         domain,

@@ -26,17 +26,17 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.IPs.listDomains(ip)
                 }
             },
-            assignDomain: { (ip, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            assignDomain: { ip, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPs.assignDomain(ip, request)
                 }
             },
-            unassignDomain: { (ip, domain) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            unassignDomain: { ip, domain throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPs.unassignDomain(ip, domain: domain)
                 }
             },
-            assignIPBand: { (ip, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            assignIPBand: { ip, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPs.assignIPBand(ip, request)
                 }
@@ -51,7 +51,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.IPs.getRequestedIPs()
                 }
             },
-            deleteDomainIP: { (domain, ip) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            deleteDomainIP: { domain, ip throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPs.deleteDomainIP(
                         domain: try Mailgun.HTTP.Construction.domain(domain),
@@ -59,7 +59,7 @@ extension Mailgun.HTTP.Client {
                     )
                 }
             },
-            deleteDomainPool: { (domain, ip) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            deleteDomainPool: { domain, ip throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPs.deleteDomainPool(
                         domain: try Mailgun.HTTP.Construction.domain(domain),
@@ -86,7 +86,7 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.IPs.Warmup.get(ip)
                 }
             },
-            create: { (ip, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            create: { ip, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPs.Warmup.create(ip, request)
                 }

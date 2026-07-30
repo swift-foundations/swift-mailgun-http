@@ -22,12 +22,12 @@ extension Mailgun.HTTP.Client {
                     try Mailgun.HTTP.IPPools.get(poolId)
                 }
             },
-            update: { (poolId, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            update: { poolId, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPPools.update(poolId, request)
                 }
             },
-            delete: { (poolId, request) throws(Mailgun.HTTP.Error<ExecutionFailure>) in
+            delete: { poolId, request throws(Mailgun.HTTP.Error<ExecutionFailure>) in
                 try await self.call { () throws(Mailgun.HTTP.Construction.Error) in
                     try Mailgun.HTTP.IPPools.delete(poolId, request)
                 }
