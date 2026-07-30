@@ -1,3 +1,5 @@
+import Byte_Primitive
+import Foundation
 import HTML_Form_Coder_Codable
 import HTML_Standard
 import HTTP_Body
@@ -103,5 +105,39 @@ extension Mailgun.HTTP.Construction {
         } catch {
             throw .coding(error)
         }
+    }
+
+    /// Encodes `value` as `application/json` (keys sorted alphabetically) and
+    /// installs it as `request`'s body.
+    ///
+    /// `Mailgun.Reporting.Logs.analytics` and `Mailgun.Reporting.Metrics.*`
+    /// are the only operations in this package whose wire body is JSON
+    /// rather than `application/x-www-form-urlencoded` or
+    /// `multipart/form-data` — every corpus fixture for them was captured
+    /// with sorted keys (`body(utf8/sorted-keys):`).
+    ///
+    /// Uses `Foundation.JSONEncoder` rather than the ecosystem's RFC 8259
+    /// codec (`swift-json`): that package's `JSON` target depends on
+    /// `swift-async`, which (as of this writing) pulls in `swift-kernel`
+    /// completion-port bindings that fail to compile on this toolchain — a
+    /// pre-existing, unrelated defect out of scope for this repository to
+    /// fix. `JSONEncoder.outputFormatting = [.sortedKeys]` reproduces the
+    /// corpus's sorted-keys byte output exactly for these three operations,
+    /// which is all this package needs from a JSON encoder.
+    static func json<Value: Swift.Encodable>(
+        _ value: Value,
+        into request: inout HTTP.Request
+    ) throws(Error) {
+        let encoder = Foundation.JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        let data: Foundation.Data
+        do {
+            data = try encoder.encode(value)
+        } catch {
+            throw .json(String(describing: error))
+        }
+        request.body = data.map(Byte.init)
+        request.headers.removeAll(named: "Content-Type")
+        request.headers.append(try Mailgun.HTTP.Construction.header("Content-Type", "application/json"))
     }
 }

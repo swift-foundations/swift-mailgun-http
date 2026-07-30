@@ -35,5 +35,14 @@ extension Mailgun.HTTP.Construction {
 
         /// Form or multipart body encoding failed.
         case coding(HTML.Form.Coder.Error)
+
+        /// JSON body encoding failed — `Mailgun.Reporting.Logs.analytics` and
+        /// `Mailgun.Reporting.Metrics.*`, the only operations in this package
+        /// whose wire body is `application/json` rather than
+        /// `application/x-www-form-urlencoded` or `multipart/form-data`.
+        /// Carries a description rather than the underlying error value,
+        /// mirroring `HTML.Form.Coder.Error.coding`'s own `String` case —
+        /// the underlying `EncodingError` is not `Sendable`.
+        case json(String)
     }
 }

@@ -100,6 +100,12 @@ enum Corpus {
                     bodyLines = nil
                 } else if let value = line.droppingPrefix("body(utf8): ") {
                     bodyLines = [value]
+                } else if let value = line.droppingPrefix("body(utf8/sorted-keys): ") {
+                    // `Reporting.Logs`/`Reporting.Metrics`: application/json bodies,
+                    // captured with keys already sorted alphabetically. The marker
+                    // records how the fixture was generated; the body text itself
+                    // parses identically to `body(utf8):`.
+                    bodyLines = [value]
                 }
             }
 
