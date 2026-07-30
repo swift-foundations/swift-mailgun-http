@@ -36,9 +36,18 @@ extension HTML.Form.Coder.Encoder {
 
     /// Repeated-bare-key array rendering (same as `.mailgun`) with literal
     /// `true` / `false` booleans instead of `yes` / `no` — the shape
-    /// `Domains`, `Domains.Tracking`, `Domains.DKIMSecurity`, and
-    /// `Credentials` corpus fixtures require.
+    /// `Domains`, `Domains.Tracking`, `Domains.DKIMSecurity`, `Credentials`,
+    /// `IPs.Warmup`, and `Subaccounts.updateFeatures` corpus fixtures
+    /// require.
     static var mailgunLiteralBool: HTML.Form.Coder.Encoder {
         HTML.Form.Coder.Encoder(arrayEncodingStrategy: .accumulateValues)
+    }
+
+    /// `key[]=value` array rendering (same as `.mailgunBracketed`) with
+    /// literal `true` / `false` booleans instead of `yes` / `no` — the shape
+    /// `Lists.bulkAdd`'s root array-of-members body requires (each element
+    /// renders as `[][field]=value`).
+    static var mailgunBracketedLiteralBool: HTML.Form.Coder.Encoder {
+        HTML.Form.Coder.Encoder(arrayEncodingStrategy: .brackets)
     }
 }

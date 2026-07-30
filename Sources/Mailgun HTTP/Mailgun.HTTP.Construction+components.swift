@@ -45,6 +45,17 @@ extension Mailgun.HTTP.Construction {
         }
     }
 
+    /// Builds a header field for an operation that carries state outside its
+    /// path/query/body — e.g. `Mailgun.Subaccounts.delete`'s
+    /// `X-Mailgun-On-Behalf-Of`.
+    static func header(_ name: String, _ value: String) throws(Error) -> HTTP.Header.Field {
+        do throws(HTTP.Header.Field.Error) {
+            return try HTTP.Header.Field(name: name, value: value)
+        } catch {
+            throw .header(error)
+        }
+    }
+
     /// An origin-form request with no body: method, path, and optional query.
     static func request(
         _ method: HTTP.Method,
