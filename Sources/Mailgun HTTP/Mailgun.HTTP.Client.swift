@@ -39,6 +39,7 @@ extension Mailgun.HTTP {
             // "Basic " + base64("api:<key>") is always composed of the base64
             // alphabet plus a space, which is always RFC 9110 field-value legal —
             // this can never actually throw.
+            // swiftlint:disable:next force_try
             self.authorizationHeader = try! HTTP.Header.Field(
                 name: "Authorization",
                 value: authentication.credentials.headerValue

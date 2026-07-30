@@ -113,7 +113,7 @@ enum Corpus {
             if var collected = bodyLines {
                 // The fixture separates cases with one blank line before the next
                 // `== name ==` delimiter; that separator is not part of the body.
-                if collected.last == "" { collected.removeLast() }
+                if collected.last?.isEmpty == true { collected.removeLast() }
                 body = collected.joined(separator: "\n")
             }
 
