@@ -33,7 +33,10 @@ extension Mailgun.HTTP.IPs {
         _ ip: String,
         _ request: Mailgun.IPs.AssignDomain.Request
     ) throws(Mailgun.HTTP.Construction.Error) -> HTTP.Request {
-        var httpRequest = try Mailgun.HTTP.Construction.request(.post, ["v3", "ips", ip, "domains"])
+        var httpRequest = try Mailgun.HTTP.Construction.request(
+            .post,
+            ["v3", "ips", ip, "domains"]
+        )
         try Mailgun.HTTP.Construction.form(request, into: &httpRequest)
         return httpRequest
     }
@@ -49,7 +52,10 @@ extension Mailgun.HTTP.IPs {
         _ ip: String,
         _ request: Mailgun.IPs.IPBand.Request
     ) throws(Mailgun.HTTP.Construction.Error) -> HTTP.Request {
-        var httpRequest = try Mailgun.HTTP.Construction.request(.post, ["v3", "ips", ip, "ip_band"])
+        var httpRequest = try Mailgun.HTTP.Construction.request(
+            .post,
+            ["v3", "ips", ip, "ip_band"]
+        )
         try Mailgun.HTTP.Construction.form(request, into: &httpRequest)
         return httpRequest
     }

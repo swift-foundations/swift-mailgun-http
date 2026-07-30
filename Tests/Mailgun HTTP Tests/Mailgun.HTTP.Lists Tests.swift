@@ -129,7 +129,9 @@ extension Mailgun.HTTP.Lists.Construction.Unit {
     }
 
     @Test func `delete builds the corpus delete request`() throws {
-        let request = try Mailgun.HTTP.Lists.delete(try EmailAddress("developers@parity.example.com"))
+        let request = try Mailgun.HTTP.Lists.delete(
+            try EmailAddress("developers@parity.example.com")
+        )
         Corpus.load("Lists", case: "delete").expect(matches: request)
     }
 

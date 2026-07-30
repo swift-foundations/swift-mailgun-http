@@ -19,7 +19,11 @@ extension Mailgun.HTTP.Reporting.Logs.Construction.Unit {
                 endDate: .init(referenceDate: Time(secondsSinceEpoch: 721_779_200)),
                 filter: .init(
                     and: [
-                        .init(field: "domain", operator: .equals, value: .string("parity.example.com"))
+                        .init(
+                            field: "domain",
+                            operator: .equals,
+                            value: .string("parity.example.com")
+                        )
                     ],
                     or: [
                         .init(field: "severity", operator: .notEquals, value: .string("temporary"))

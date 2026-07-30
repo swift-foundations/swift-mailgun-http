@@ -12,7 +12,10 @@ extension Mailgun.HTTP {
 
 extension Mailgun.HTTP.CustomMessageLimit {
     public static func getMonthlyLimit() throws(Mailgun.HTTP.Construction.Error) -> HTTP.Request {
-        try Mailgun.HTTP.Construction.request(.get, ["v5", "accounts", "limit", "custom", "monthly"])
+        try Mailgun.HTTP.Construction.request(
+            .get,
+            ["v5", "accounts", "limit", "custom", "monthly"]
+        )
     }
 
     public static func setMonthlyLimit(
@@ -25,7 +28,8 @@ extension Mailgun.HTTP.CustomMessageLimit {
         )
     }
 
-    public static func deleteMonthlyLimit() throws(Mailgun.HTTP.Construction.Error) -> HTTP.Request {
+    public static func deleteMonthlyLimit() throws(Mailgun.HTTP.Construction.Error) -> HTTP.Request
+    {
         try Mailgun.HTTP.Construction.request(
             .delete,
             ["v5", "accounts", "limit", "custom", "monthly"]
@@ -33,6 +37,9 @@ extension Mailgun.HTTP.CustomMessageLimit {
     }
 
     public static func enableAccount() throws(Mailgun.HTTP.Construction.Error) -> HTTP.Request {
-        try Mailgun.HTTP.Construction.request(.put, ["v5", "accounts", "limit", "custom", "enable"])
+        try Mailgun.HTTP.Construction.request(
+            .put,
+            ["v5", "accounts", "limit", "custom", "enable"]
+        )
     }
 }

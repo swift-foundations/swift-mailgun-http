@@ -23,7 +23,9 @@ extension Mailgun.HTTP.Reporting.Metrics.Construction.Unit {
                         .init(
                             attribute: "domain",
                             comparator: "=",
-                            values: [.init(label: "parity.example.com", value: "parity.example.com")]
+                            values: [
+                                .init(label: "parity.example.com", value: "parity.example.com")
+                            ]
                         )
                     ]
                 ),
@@ -48,7 +50,9 @@ extension Mailgun.HTTP.Reporting.Metrics.Construction.Unit {
                         .init(
                             attribute: "domain",
                             comparator: "=",
-                            values: [.init(label: "parity.example.com", value: "parity.example.com")]
+                            values: [
+                                .init(label: "parity.example.com", value: "parity.example.com")
+                            ]
                         )
                     ]
                 ),

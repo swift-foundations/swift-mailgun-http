@@ -113,10 +113,18 @@ extension Mailgun.HTTP.Messages {
         contentType: String?,
         data: [UInt8]
     ) -> RFC_2046.BodyPart {
-        RFC_2046.BodyPart(
+        // REASON: matches the archived router's `addFileField` exactly — an
+        // unparseable filename or content type is dropped silently rather than
+        // failing the whole multipart request; there is no narrower typed
+        // failure to surface here without diverging from that behavior.
+        // swiftlint:disable:next no_try_optional
+        let filename = try? RFC_2183.Filename(filename)
+        // swiftlint:disable:next no_try_optional
+        let contentType = contentType.flatMap { try? RFC_2045.ContentType($0) }
+        return RFC_2046.BodyPart(
             headers: RFC_2046.BodyPart.Headers(
-                contentDisposition: .formData(name: name, filename: try? RFC_2183.Filename(filename)),
-                contentType: contentType.flatMap { try? RFC_2045.ContentType($0) }
+                contentDisposition: .formData(name: name, filename: filename),
+                contentType: contentType
             ),
             content: RFC_2046.BodyPart.Content(binary: data.map(Byte.init))
         )
@@ -138,71 +146,91 @@ extension Mailgun.HTTP.Messages {
         return parts
     }
 
+    /// The `o:tag` through `recipient-variables` fields — identical in
+    /// shape and wire order across `Send.Request` and `Send.Mime.Request`.
+    /// Grouped into one type so `optionParts(_:)` takes a single argument
+    /// rather than the 19 loose parameters `Send.Request`/`Send.Mime.Request`
+    /// carry (`Mailgun.HTTP.Messages.parts(for:)` builds one of these from
+    /// each request type's fields directly).
+    fileprivate struct Options {
+        var tags: [String]?
+        var dkim: Bool?
+        var secondaryDkim: String?
+        var secondaryDkimPublic: String?
+        var deliveryTime: Time.Epoch?
+        var deliveryTimeOptimizePeriod: String?
+        var timeZoneLocalize: String?
+        var testMode: Bool?
+        var tracking: Mailgun.Messages.Tracking.Option?
+        var trackingClicks: Mailgun.Messages.Tracking.Option?
+        var trackingOpens: Bool?
+        var requireTls: Bool?
+        var skipVerification: Bool?
+        var sendingIp: String?
+        var sendingIpPool: String?
+        var trackingPixelLocationTop: Bool?
+        var headers: [String: String]?
+        var variables: [String: String]?
+        var recipientVariables: String?
+    }
+
     /// `o:tag` through `recipient-variables` — identical across `send` and
     /// `sendMime`.
-    fileprivate static func optionParts(
-        tags: [String]?,
-        dkim: Bool?,
-        secondaryDkim: String?,
-        secondaryDkimPublic: String?,
-        deliveryTime: Time.Epoch?,
-        deliveryTimeOptimizePeriod: String?,
-        timeZoneLocalize: String?,
-        testMode: Bool?,
-        tracking: Mailgun.Messages.Tracking.Option?,
-        trackingClicks: Mailgun.Messages.Tracking.Option?,
-        trackingOpens: Bool?,
-        requireTls: Bool?,
-        skipVerification: Bool?,
-        sendingIp: String?,
-        sendingIpPool: String?,
-        trackingPixelLocationTop: Bool?,
-        headers: [String: String]?,
-        variables: [String: String]?,
-        recipientVariables: String?
-    ) -> [RFC_2046.BodyPart] {
+    fileprivate static func optionParts(_ options: Options) -> [RFC_2046.BodyPart] {
         var parts: [RFC_2046.BodyPart] = []
-        if let tags { for tag in tags { parts.append(Self.field("o:tag", tag)) } }
-        if let dkim { parts.append(Self.field("o:dkim", dkim ? "yes" : "no")) }
-        if let secondaryDkim { parts.append(Self.field("o:secondary-dkim", secondaryDkim)) }
-        if let secondaryDkimPublic {
+        if let tags = options.tags { for tag in tags { parts.append(Self.field("o:tag", tag)) } }
+        if let dkim = options.dkim { parts.append(Self.field("o:dkim", dkim ? "yes" : "no")) }
+        if let secondaryDkim = options.secondaryDkim {
+            parts.append(Self.field("o:secondary-dkim", secondaryDkim))
+        }
+        if let secondaryDkimPublic = options.secondaryDkimPublic {
             parts.append(Self.field("o:secondary-dkim-public", secondaryDkimPublic))
         }
-        if let deliveryTime {
+        if let deliveryTime = options.deliveryTime {
             parts.append(Self.field("o:deliverytime", Self.rfc2822(deliveryTime)))
         }
-        if let deliveryTimeOptimizePeriod {
+        if let deliveryTimeOptimizePeriod = options.deliveryTimeOptimizePeriod {
             parts.append(Self.field("o:deliverytime-optimize-period", deliveryTimeOptimizePeriod))
         }
-        if let timeZoneLocalize {
+        if let timeZoneLocalize = options.timeZoneLocalize {
             parts.append(Self.field("o:time-zone-localize", timeZoneLocalize))
         }
-        if let testMode { parts.append(Self.field("o:testmode", testMode ? "yes" : "no")) }
-        if let tracking { parts.append(Self.field("o:tracking", tracking.rawValue)) }
-        if let trackingClicks {
+        if let testMode = options.testMode {
+            parts.append(Self.field("o:testmode", testMode ? "yes" : "no"))
+        }
+        if let tracking = options.tracking {
+            parts.append(Self.field("o:tracking", tracking.rawValue))
+        }
+        if let trackingClicks = options.trackingClicks {
             parts.append(Self.field("o:tracking-clicks", trackingClicks.rawValue))
         }
-        if let trackingOpens {
+        if let trackingOpens = options.trackingOpens {
             parts.append(Self.field("o:tracking-opens", trackingOpens ? "yes" : "no"))
         }
-        if let requireTls { parts.append(Self.field("o:require-tls", requireTls ? "yes" : "no")) }
-        if let skipVerification {
+        if let requireTls = options.requireTls {
+            parts.append(Self.field("o:require-tls", requireTls ? "yes" : "no"))
+        }
+        if let skipVerification = options.skipVerification {
             parts.append(Self.field("o:skip-verification", skipVerification ? "yes" : "no"))
         }
-        if let sendingIp { parts.append(Self.field("o:sending-ip", sendingIp)) }
-        if let sendingIpPool { parts.append(Self.field("o:sending-ip-pool", sendingIpPool)) }
-        if let trackingPixelLocationTop {
+        if let sendingIp = options.sendingIp {
+            parts.append(Self.field("o:sending-ip", sendingIp))
+        }
+        if let sendingIpPool = options.sendingIpPool {
+            parts.append(Self.field("o:sending-ip-pool", sendingIpPool))
+        }
+        if let trackingPixelLocationTop = options.trackingPixelLocationTop {
             parts.append(
                 Self.field("o:tracking-pixel-location-top", trackingPixelLocationTop ? "yes" : "no")
             )
         }
-        if let headers {
+        if let headers = options.headers {
             for (key, value) in headers { parts.append(Self.field("h:\(key)", value)) }
         }
-        if let variables {
+        if let variables = options.variables {
             for (key, value) in variables { parts.append(Self.field("v:\(key)", value)) }
         }
-        if let recipientVariables {
+        if let recipientVariables = options.recipientVariables {
             parts.append(Self.field("recipient-variables", recipientVariables))
         }
         return parts
@@ -272,25 +300,27 @@ extension Mailgun.HTTP.Messages {
         }
         parts.append(
             contentsOf: Self.optionParts(
-                tags: request.tags,
-                dkim: request.dkim,
-                secondaryDkim: request.secondaryDkim,
-                secondaryDkimPublic: request.secondaryDkimPublic,
-                deliveryTime: request.deliveryTime,
-                deliveryTimeOptimizePeriod: request.deliveryTimeOptimizePeriod,
-                timeZoneLocalize: request.timeZoneLocalize,
-                testMode: request.testMode,
-                tracking: request.tracking,
-                trackingClicks: request.trackingClicks,
-                trackingOpens: request.trackingOpens,
-                requireTls: request.requireTls,
-                skipVerification: request.skipVerification,
-                sendingIp: request.sendingIp,
-                sendingIpPool: request.sendingIpPool,
-                trackingPixelLocationTop: request.trackingPixelLocationTop,
-                headers: request.headers,
-                variables: request.variables,
-                recipientVariables: request.recipientVariables
+                Options(
+                    tags: request.tags,
+                    dkim: request.dkim,
+                    secondaryDkim: request.secondaryDkim,
+                    secondaryDkimPublic: request.secondaryDkimPublic,
+                    deliveryTime: request.deliveryTime,
+                    deliveryTimeOptimizePeriod: request.deliveryTimeOptimizePeriod,
+                    timeZoneLocalize: request.timeZoneLocalize,
+                    testMode: request.testMode,
+                    tracking: request.tracking,
+                    trackingClicks: request.trackingClicks,
+                    trackingOpens: request.trackingOpens,
+                    requireTls: request.requireTls,
+                    skipVerification: request.skipVerification,
+                    sendingIp: request.sendingIp,
+                    sendingIpPool: request.sendingIpPool,
+                    trackingPixelLocationTop: request.trackingPixelLocationTop,
+                    headers: request.headers,
+                    variables: request.variables,
+                    recipientVariables: request.recipientVariables
+                )
             )
         )
         return parts
@@ -319,25 +349,27 @@ extension Mailgun.HTTP.Messages {
         )
         parts.append(
             contentsOf: Self.optionParts(
-                tags: request.tags,
-                dkim: request.dkim,
-                secondaryDkim: request.secondaryDkim,
-                secondaryDkimPublic: request.secondaryDkimPublic,
-                deliveryTime: request.deliveryTime,
-                deliveryTimeOptimizePeriod: request.deliveryTimeOptimizePeriod,
-                timeZoneLocalize: request.timeZoneLocalize,
-                testMode: request.testMode,
-                tracking: request.tracking,
-                trackingClicks: request.trackingClicks,
-                trackingOpens: request.trackingOpens,
-                requireTls: request.requireTls,
-                skipVerification: request.skipVerification,
-                sendingIp: request.sendingIp,
-                sendingIpPool: request.sendingIpPool,
-                trackingPixelLocationTop: request.trackingPixelLocationTop,
-                headers: request.headers,
-                variables: request.variables,
-                recipientVariables: request.recipientVariables
+                Options(
+                    tags: request.tags,
+                    dkim: request.dkim,
+                    secondaryDkim: request.secondaryDkim,
+                    secondaryDkimPublic: request.secondaryDkimPublic,
+                    deliveryTime: request.deliveryTime,
+                    deliveryTimeOptimizePeriod: request.deliveryTimeOptimizePeriod,
+                    timeZoneLocalize: request.timeZoneLocalize,
+                    testMode: request.testMode,
+                    tracking: request.tracking,
+                    trackingClicks: request.trackingClicks,
+                    trackingOpens: request.trackingOpens,
+                    requireTls: request.requireTls,
+                    skipVerification: request.skipVerification,
+                    sendingIp: request.sendingIp,
+                    sendingIpPool: request.sendingIpPool,
+                    trackingPixelLocationTop: request.trackingPixelLocationTop,
+                    headers: request.headers,
+                    variables: request.variables,
+                    recipientVariables: request.recipientVariables
+                )
             )
         )
         return parts

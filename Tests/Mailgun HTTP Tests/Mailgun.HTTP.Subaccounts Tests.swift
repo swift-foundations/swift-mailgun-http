@@ -16,7 +16,14 @@ extension Mailgun.HTTP.Subaccounts.Construction.Unit {
 
     @Test func `list builds the corpus list request`() throws {
         let request = try Mailgun.HTTP.Subaccounts.list(
-            .init(sort: .asc, filter: "parity-filter", limit: 10, skip: 2, enabled: true, closed: false)
+            .init(
+                sort: .asc,
+                filter: "parity-filter",
+                limit: 10,
+                skip: 2,
+                enabled: true,
+                closed: false
+            )
         )
         Corpus.load("Subaccounts", case: "list").expect(matches: request)
     }

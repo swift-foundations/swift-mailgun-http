@@ -11,7 +11,11 @@ extension Corpus.Case {
         matches request: HTTP.Request,
         sourceLocation: SourceLocation = #_sourceLocation
     ) {
-        #expect(request.method.rawValue == method, "method (\(name))", sourceLocation: sourceLocation)
+        #expect(
+            request.method.rawValue == method,
+            "method (\(name))",
+            sourceLocation: sourceLocation
+        )
         #expect(
             request.path?.description == path,
             "path (\(name))",
@@ -56,7 +60,11 @@ extension Corpus.Case {
         matchesNormalizingBoundary request: HTTP.Request,
         sourceLocation: SourceLocation = #_sourceLocation
     ) {
-        #expect(request.method.rawValue == method, "method (\(name))", sourceLocation: sourceLocation)
+        #expect(
+            request.method.rawValue == method,
+            "method (\(name))",
+            sourceLocation: sourceLocation
+        )
         #expect(
             request.path?.description == path,
             "path (\(name))",

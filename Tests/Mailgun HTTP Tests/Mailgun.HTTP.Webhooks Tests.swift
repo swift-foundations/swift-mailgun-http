@@ -16,7 +16,10 @@ extension Mailgun.HTTP.Webhooks.Construction.Unit {
     }
 
     @Test func `get builds the corpus get request`() throws {
-        let request = try Mailgun.HTTP.Webhooks.get(.delivered, domain: try Domain("parity.example.com"))
+        let request = try Mailgun.HTTP.Webhooks.get(
+            .delivered,
+            domain: try Domain("parity.example.com")
+        )
         Corpus.load("Webhooks", case: "get").expect(matches: request)
     }
 

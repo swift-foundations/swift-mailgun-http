@@ -37,7 +37,9 @@ extension Mailgun.HTTP.Credentials.Construction.Unit {
     }
 
     @Test func `deleteAll builds the corpus deleteAll request`() throws {
-        let request = try Mailgun.HTTP.Credentials.deleteAll(domain: try Domain("parity.example.com"))
+        let request = try Mailgun.HTTP.Credentials.deleteAll(
+            domain: try Domain("parity.example.com")
+        )
         Corpus.load("Credentials", case: "deleteAll").expect(matches: request)
     }
 

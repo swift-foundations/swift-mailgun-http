@@ -118,7 +118,14 @@ enum Corpus {
             }
 
             cases.append(
-                Case(name: name, method: method, path: path, query: query, headers: headers, body: body)
+                Case(
+                    name: name,
+                    method: method,
+                    path: path,
+                    query: query,
+                    headers: headers,
+                    body: body
+                )
             )
         }
 

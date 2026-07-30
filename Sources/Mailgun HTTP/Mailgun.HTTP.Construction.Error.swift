@@ -1,3 +1,4 @@
+import Domain_Standard
 import HTML_Form_Coder
 import HTML_Form_Coder_Codable
 import HTML_Standard
@@ -32,6 +33,15 @@ extension Mailgun.HTTP.Construction {
 
         /// A header field's value was not RFC 9110 field-value legal.
         case header(HTTP.Header.Field.Error)
+
+        /// A raw `String` domain name was not a legal `Domain` — only
+        /// `Mailgun.HTTP.Client`'s wrapper for `Mailgun.HTTP.IPs.deleteDomainIP`/
+        /// `.deleteDomainPool` needs this: `swift-mailgun`'s
+        /// `Mailgun.IPs.Client` vends those two operations' domain as a bare
+        /// `String` (matching the archived router's untyped case exactly),
+        /// while the wire constructor takes the typed `Domain` every other
+        /// domain-scoped operation in this package uses.
+        case domain(Domain.Error)
 
         /// Form or multipart body encoding failed.
         case coding(HTML.Form.Coder.Error)

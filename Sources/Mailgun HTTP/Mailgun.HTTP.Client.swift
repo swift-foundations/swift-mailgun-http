@@ -30,7 +30,8 @@ extension Mailgun.HTTP {
         public init(
             host: RFC_3986.URI.Host = .registeredName("api.mailgun.net"),
             authentication: Mailgun.HTTP.Authentication,
-            execute: @escaping @Sendable (HTTP.Request) async throws(ExecutionFailure) -> HTTP.Response
+            execute:
+                @escaping @Sendable (HTTP.Request) async throws(ExecutionFailure) -> HTTP.Response
         ) {
             self.host = host
             self.authentication = authentication

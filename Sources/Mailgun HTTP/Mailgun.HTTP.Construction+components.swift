@@ -1,4 +1,5 @@
 import Byte_Primitive
+import Domain_Standard
 import Foundation
 import HTML_Form_Coder_Codable
 import HTML_Standard
@@ -55,6 +56,17 @@ extension Mailgun.HTTP.Construction {
             return try HTTP.Header.Field(name: name, value: value)
         } catch {
             throw .header(error)
+        }
+    }
+
+    /// Validates a raw `String` as a `Domain` — only the
+    /// `Mailgun.HTTP.Client` wrapper for `Mailgun.HTTP.IPs.deleteDomainIP`/
+    /// `.deleteDomainPool` needs this (see `Construction.Error.domain`).
+    static func domain(_ rawValue: String) throws(Error) -> Domain {
+        do throws(Domain.Error) {
+            return try Domain(rawValue)
+        } catch {
+            throw .domain(error)
         }
     }
 
@@ -138,6 +150,8 @@ extension Mailgun.HTTP.Construction {
         }
         request.body = data.map(Byte.init)
         request.headers.removeAll(named: "Content-Type")
-        request.headers.append(try Mailgun.HTTP.Construction.header("Content-Type", "application/json"))
+        request.headers.append(
+            try Mailgun.HTTP.Construction.header("Content-Type", "application/json")
+        )
     }
 }

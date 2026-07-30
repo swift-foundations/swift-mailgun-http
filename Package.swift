@@ -56,6 +56,10 @@ let package = Package(
             url: "https://github.com/swift-primitives/swift-byte-primitives.git",
             branch: "main"
         ),
+        .package(
+            url: "https://github.com/swift-foundations/swift-mailgun.git",
+            branch: "main"
+        ),
     ],
     targets: [
         .target(
@@ -73,6 +77,7 @@ let package = Package(
                 .product(name: "RFC 2046", package: "swift-rfc-2046"),
                 .product(name: "Time Primitive", package: "swift-time-primitives"),
                 .product(name: "Byte Primitive", package: "swift-byte-primitives"),
+                .product(name: "Mailgun", package: "swift-mailgun"),
             ]
         ),
         .testTarget(
