@@ -31,23 +31,32 @@ extension Mailgun.HTTP.Construction {
             init?(intValue: Int) { nil }
         }
 
+        // REASON: `Swift.Encodable.encode(to:)` is declared with untyped
+        // `throws` upstream; a conforming implementation is signature-forced
+        // and cannot express `throws(E)`.
+        // swiftlint:disable:next typed_throws_required
         func encode(to encoder: Swift.Encoder) throws {
             switch self {
             case .string(let value):
                 var container = encoder.singleValueContainer()
                 try container.encode(value)
+
             case .int(let value):
                 var container = encoder.singleValueContainer()
                 try container.encode(value)
+
             case .double(let value):
                 var container = encoder.singleValueContainer()
                 try container.encode(value)
+
             case .bool(let value):
                 var container = encoder.singleValueContainer()
                 try container.encode(value)
+
             case .array(let values):
                 var container = encoder.unkeyedContainer()
                 for value in values { try container.encode(value) }
+
             case .object(let pairs):
                 var container = encoder.container(keyedBy: Key.self)
                 for (key, value) in pairs { try container.encode(value, forKey: Key(key)) }
