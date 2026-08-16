@@ -144,6 +144,25 @@ Mailgun.HTTP.Error<ExecutionFailure>
 └── .unsupported(String)                             // no wire constructor exists yet — see Gaps
 ```
 
+## Test Environment
+
+The live integration tests read their configuration from the process environment.
+Set these before running them; the corpus suites above need none of them.
+
+| Variable | Meaning |
+|---|---|
+| `MAILGUN_BASE_URL` | API origin — `https://api.mailgun.net`, or `https://api.eu.mailgun.net` for EU accounts. |
+| `MAILGUN_PRIVATE_API_KEY` | Mailgun private API key used to authenticate the live requests. |
+| `MAILGUN_DOMAIN` | Sending domain, e.g. `mg.yourdomain.com` or a `sandbox….mailgun.org` domain. |
+| `MAILGUN_WEBHOOK_SIGNING_KEY` | Key used to verify inbound webhook signatures. |
+| `MAILGUN_FROM_EMAIL` | Default sender address for the live message tests. |
+| `MAILGUN_TO_EMAIL` | Default recipient address for the live message tests. |
+| `MAILGUN_TEST_MAILINGLIST` | Mailing-list address the list suites operate on. |
+| `MAILGUN_TEST_RECIPIENT` | Recipient address the delivery suites send to. |
+
+When the domain is a sandbox domain, every recipient must first be authorized in
+the Mailgun dashboard.
+
 ## License
 
 This package is licensed under the AGPL 3.0 License. See [LICENSE.md](LICENSE.md) for details.
