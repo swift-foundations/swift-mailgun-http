@@ -3,7 +3,7 @@ import Testing
 
 @testable import Mailgun_HTTP
 
-/// Parses `__Corpus__/<Area>.txt` parity fixtures (ported unchanged from the
+/// Parses the Swift-embedded parity corpus documents (ported unchanged from the
 /// archived `Mailgun Router Parity Tests` corpus, `swift-mailgun-standard`
 /// commit `15f7f18`) and compares them against a constructed `HTTP.Request`.
 ///
@@ -29,22 +29,19 @@ enum Corpus {
         let body: String?
     }
 
-    /// Loads and parses `__Corpus__/<area>.txt`, sibling to the calling test file.
-    static func load(_ area: String, file: StaticString = #filePath) -> [Case] {
-        let url = URL(fileURLWithPath: "\(file)")
-            .deletingLastPathComponent()
-            .appendingPathComponent("__Corpus__")
-            .appendingPathComponent("\(area).txt")
-        // swiftlint:disable:next force_try
-        let text = try! String(contentsOf: url, encoding: .utf8)
+    /// Loads and parses the Swift-embedded corpus document named `area`.
+    static func load(_ area: String) -> [Case] {
+        guard let text = Documents[area] else {
+            fatalError("No corpus document named '\(area)'")
+        }
         return parse(text)
     }
 
     /// Looks up a single named case, failing the test immediately if absent —
     /// every constructor test names the corpus case it verifies against.
-    static func load(_ area: String, case name: String, file: StaticString = #filePath) -> Case {
-        guard let found = load(area, file: file).first(where: { $0.name == name }) else {
-            fatalError("No corpus case named '\(name)' in \(area).txt")
+    static func load(_ area: String, case name: String) -> Case {
+        guard let found = load(area).first(where: { $0.name == name }) else {
+            fatalError("No corpus case named '\(name)' in '\(area)'")
         }
         return found
     }
