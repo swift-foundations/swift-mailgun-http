@@ -26,9 +26,18 @@ extension Corpus.Documents {
 }
 
 extension Corpus.Documents {
-    /// Carried by interpolation: Swift normalizes a
-    /// literal carriage return to a line feed inside a
-    /// multiline string literal.
+    /// Carried by interpolation, not written
+    /// literally, in every document that needs it.
+    ///
+    /// A literal trailing space would be stripped as trailing
+    /// whitespace by the formatter.
+    fileprivate static let space = " "
+
+    /// Carried by interpolation, not written
+    /// literally, in every document that needs it.
+    ///
+    /// Swift normalizes a literal carriage return to a line feed
+    /// inside a multiline string literal.
     fileprivate static let carriageReturn = "\r"
 }
 
@@ -390,7 +399,7 @@ extension Corpus.Documents {
         method: POST
         path: /v3/ip_warmups/192.161.0.1
         header: content-type: application/x-www-form-urlencoded
-        body(utf8): 
+        body(utf8):\##########(space)
 
         == delete ==
         method: DELETE
